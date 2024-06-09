@@ -36,7 +36,7 @@ interface Chapter {
   contentURLs: string[]
 }
 
-export async function fetchChapter(provider: string, webtoon: string, chapter: string) {
+async function fetchChapter(provider: string, webtoon: string, chapter: string) {
   const response = await fetch(`https://manga-scraper.hostinger.fourleaves.studio/api/v1/chapters/${provider}/${webtoon}/${chapter}`)
 
   const result: ChapterResponse = await response.json()
