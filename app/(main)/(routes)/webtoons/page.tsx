@@ -1,37 +1,16 @@
 "use client"
 
 import { Provider, ProvidersComboBoxResponsive } from "@/components/combobox/providers";
-import { useQuery } from "@tanstack/react-query";
+import { WebtoonCard } from "@/components/webtoon-card";
+import { useState } from "react";
 
-
-
-interface ProviderResponse {
-  error: boolean
-  message: string
-  data: Provider[]
-}
-
-export async function fetchProviders() {
-  const res = await fetch("http://localhost:1323/api/v1/providers")
-
-  if (!res.ok) {
-    throw new Error("Network response was not ok")
-  }
-
-  const data: ProviderResponse = await res.json()
-
-  if (data.error) {
-    throw new Error(data.message)
-  }
-
-  return data.data as Provider[]
+const initProvider: Provider = {
+  name: "Asura Scans",
+  slug: "asura",
 }
 
 export default function Webtoons() {
-  const { status, data, error } = useQuery({
-    queryKey: ["providers"],
-    queryFn: fetchProviders,
-  })
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(initProvider)
 
   return (
     <div className="max-w-screen-xl flex-col gap-2 p-8 mx-auto">
@@ -42,17 +21,8 @@ export default function Webtoons() {
         <p className="text-muted-foreground">
           Here's a list of webtoons you can read.
         </p>
-      </div>
-      <div>
-        <div>
-          {status === 'pending' ? (
-            'Loading...'
-          ) : error instanceof Error ? (
-            <span>Error: {error.message}</span>
-          ) : (
-            <>{data && <ProvidersComboBoxResponsive providers={data} />}</>
-          )}
-        </div>
+        <ProvidersComboBoxResponsive selectedProvider={selectedProvider} setSelectedProvider={setSelectedProvider} />
+        <WebtoonCard selectedProvider={selectedProvider} />
       </div>
     </div>
   )

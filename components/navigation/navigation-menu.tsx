@@ -9,6 +9,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { cn } from "@/lib/utils";
 
 const components: { title: string; href: string; }[] = [
   {
@@ -36,7 +37,10 @@ export function NavMenu() {
               legacyBehavior
               passHref
             >
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink className={cn(
+                navigationMenuTriggerStyle(),
+                "bg-transparent hover:bg-transparent focus:bg-transparent",
+              )}>
                 {component.title}
               </NavigationMenuLink>
             </Link>
