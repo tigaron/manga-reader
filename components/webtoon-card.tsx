@@ -75,7 +75,7 @@ export function WebtoonCard({
     if (inView && hasNextPage) {
       fetchNextPage()
     }
-  }, [fetchNextPage, inView])
+  }, [fetchNextPage, inView, hasNextPage])
 
   if (!selectedProvider) {
     return (

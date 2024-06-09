@@ -83,7 +83,7 @@ export default function Webtoon({ params }: WebtoonProps) {
           {provider}: {webtoon}
         </h2>
         <p className="text-muted-foreground">
-          Here's a list of chapters you can read.
+          Here&apos;s a list of chapters you can read.
         </p>
       </div>
       <div>

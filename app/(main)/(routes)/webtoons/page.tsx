@@ -19,7 +19,7 @@ export default function Webtoons() {
           Webtoons List
         </h2>
         <p className="text-muted-foreground">
-          Here's a list of webtoons you can read.
+          Here&apos;s a list of webtoons you can read.
         </p>
         <ProvidersComboBoxResponsive selectedProvider={selectedProvider} setSelectedProvider={setSelectedProvider} />
         <WebtoonCard selectedProvider={selectedProvider} />

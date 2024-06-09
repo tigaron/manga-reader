@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2, ServerCrash } from "lucide-react"
+import Image from "next/image"
 
 interface ChapterProps {
   params: {
@@ -108,7 +109,7 @@ export default function Chapter({ params }: ChapterProps) {
       </div>
       <div className="flex flex-col">
         {chapterData.contentURLs.map((contentURL, index) => (
-          <img key={index} src={contentURL} alt={chapterData.fullTitle} />
+          <Image key={index} src={contentURL} alt={chapterData.fullTitle} width={800} height={1200} />
         ))}
       </div>
       <div className="flex gap-4">
