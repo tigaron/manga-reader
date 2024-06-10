@@ -4,6 +4,22 @@ import { Menu } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import Link from 'next/link';
+
+const components: { title: string; href: string; }[] = [
+  {
+    title: "Home",
+    href: "/",
+  },
+  {
+    title: "Webtoons",
+    href: "/webtoons",
+  },
+  {
+    title: "Bookmark",
+    href: "/bookmark",
+  },
+]
 
 export function MobileToggle() {
   return (
@@ -13,8 +29,15 @@ export function MobileToggle() {
           <Menu className="h-[1.2rem] w-[1.2rem]" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-6 gap-4">
-        Test
+      <SheetContent side="left" className="p-6 gap-2 flex flex-col justify-start">
+        <Link href="/" passHref>
+          <span className="font-bold">Manga Reader</span>
+        </Link>
+        {components.map((component) => (
+          <Link key={component.title} href={component.href} passHref>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">{component.title}</span>
+          </Link>
+        ))}
       </SheetContent>
     </Sheet>
   )

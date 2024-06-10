@@ -1,39 +1,16 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { Loader2, ServerCrash } from "lucide-react"
+import Image from "next/image"
+
+import { ChapterTable, fetchChapterList } from "@/components/chapter-table"
+import { StatusError, StatusInfo, StatusPending } from "@/components/status-ui"
 
 interface WebtoonProps {
   params: {
     provider: string
     webtoon: string
   }
-}
-
-interface ListChapterResponse {
-  error: boolean
-  message: string
-  data: ListChapter[]
-}
-
-interface ListChapter {
-  provider: string
-  series: string
-  slug: string
-  shortTitle: string
-  number: number
-}
-
-async function fetchChapterList(provider: string, webtoon: string) {
-  const response = await fetch(`https://manga-scraper.hostinger.fourleaves.studio/api/v1/chapters/${provider}/${webtoon}/_list`)
-
-  const result: ListChapterResponse = await response.json()
-
-  if (result.error) {
-    throw new Error(result.message)
-  }
-
-  return result.data as ListChapter[]
 }
 
 export default function Webtoon({ params }: WebtoonProps) {
@@ -44,61 +21,33 @@ export default function Webtoon({ params }: WebtoonProps) {
     queryFn: () => fetchChapterList(provider, webtoon),
   })
 
-  if (status === 'pending') {
-    return (
-      <div className="flex-1 flex flex-col justify-center items-center">
-        <Loader2 className="w-7 h-7 text-zinc-500 animate-spin my-4" />
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          Loading chapters...
-        </p>
-      </div>
-    );
-  }
-
-  if (error instanceof Error) {
-    return (
-      <div className="flex-1 flex flex-col justify-center items-center">
-        <ServerCrash className="w-7 h-7 text-zinc-500 my-4" />
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          Error: {error.message}
-        </p>
-      </div>
-    );
-  }
-
-  if (!listChapter) {
-    return (
-      <div className="flex-1 flex flex-col justify-center items-center">
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          No chapters found.
-        </p>
-      </div>
-    );
-  }
+  if (status === 'pending') return <StatusPending message="Loading chapters..." />
+  if (error instanceof Error) return <StatusError message={error.message} />
+  if (!listChapter) return <StatusInfo message="No chapters found." />
 
   return (
     <div className="max-w-screen-xl flex-col gap-2 p-8 mx-auto">
-      <div>
+      <div className="flex flex-col gap-2 items-center">
         <h2 className="text-2xl font-bold tracking-tight">
-          {provider}: {webtoon}
+          {listChapter.series.title}
         </h2>
-        <p className="text-muted-foreground">
-          Here&apos;s a list of chapters you can read.
+        <Image
+          src={listChapter.series.coverURL}
+          alt={listChapter.series.title}
+          width={300}
+          height={400}
+          className="rounded-md"
+        />
+      </div>
+      <div>
+        <p className="text-lg mt-2">
+          {listChapter.series.synopsis}
+        </p>
+        <p className="text-md text-muted-foreground">
+          Genres: {listChapter.series.genres.join(", ")}
         </p>
       </div>
-      <div>
-        <ul>
-          {
-            listChapter.map((chapter) => (
-              <li key={chapter.slug}>
-                <a href={`/webtoons/${chapter.provider}/${chapter.series}/${chapter.slug}`}>
-                {chapter.shortTitle}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      <ChapterTable chapters={listChapter.chapters} />
     </div>
   )
 }
