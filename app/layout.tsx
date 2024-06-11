@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import QueryProviders from "@/components/providers/query-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { ScrollToTopButton } from "@/components/scroll-to-top";
 
 export const metadata: Metadata = {
   title: "Manga Reader",
@@ -29,6 +31,8 @@ export default function RootLayout({
             {children}
           </ThemeProvider>
         </QueryProviders>
+        <Toaster />
+        <ScrollToTopButton />
       </body>
     </html>
   );

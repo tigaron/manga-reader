@@ -4,13 +4,9 @@ import { Provider, ProvidersComboBoxResponsive } from "@/components/combobox/pro
 import { WebtoonCard } from "@/components/webtoon-card";
 import { useState } from "react";
 
-const initProvider: Provider = {
-  name: "Asura Scans",
-  slug: "asura",
-}
 
 export default function Webtoons() {
-  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(initProvider)
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null)
 
   return (
     <div className="max-w-screen-xl flex-col gap-2 p-8 mx-auto">

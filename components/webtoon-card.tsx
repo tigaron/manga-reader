@@ -60,10 +60,11 @@ export function WebtoonCard({
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: ["webtoons", selectedProvider!.slug],
+    queryKey: ["webtoons", selectedProvider?.slug],
     queryFn: ({ pageParam = 1 }) => getWebtoons(selectedProvider!.slug, pageParam, 10),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+    enabled: !!selectedProvider,
   })
 
   useEffect(() => {
@@ -83,19 +84,17 @@ export function WebtoonCard({
           {page.series.map((webtoon) => (
             <Card key={webtoon.slug}>
               <Link href={`/webtoons/${selectedProvider.slug}/${webtoon.slug}`} passHref>
-                <CardContent className="p-6">
+                <CardContent className="relative w-auto h-96">
                   <Image
                     src={webtoon.coverURL}
                     alt={webtoon.title}
-                    width={300}
-                    height={400}
+                    layout="fill"
+                    objectFit="cover"
+                    className="p-6"
                   />
                 </CardContent>
-                <CardFooter className="flex flex-col items-start gap-y-2">
-                  <CardTitle>{webtoon.title}</CardTitle>
-                  <CardDescription>
-                    {webtoon.genres && webtoon.genres.join(", ")}
-                  </CardDescription>
+                <CardFooter className="flex flex-col items-start gap-y-2 text-center">
+                  <CardTitle className="w-full">{webtoon.title}</CardTitle>
                 </CardFooter>
               </Link>
             </Card>
