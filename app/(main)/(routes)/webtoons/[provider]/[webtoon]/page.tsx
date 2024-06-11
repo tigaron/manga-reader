@@ -40,9 +40,7 @@ export default function Webtoon({ params }: WebtoonProps) {
         />
       </div>
       <div>
-        <p className="text-lg mt-2">
-          {listChapter.series.synopsis}
-        </p>
+        <p className="text-lg mt-2" dangerouslySetInnerHTML={{ __html: listChapter.series.synopsis }} />
         <p className="text-md text-muted-foreground">
           Genres: {listChapter.series.genres.join(", ")}
         </p>
