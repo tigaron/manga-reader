@@ -51,8 +51,8 @@ const columns: ColumnDef<ListChapter>[] = [
     accessorKey: "shortTitle",
     cell: ({ row }) => {
       return (
-        <Link href={`/webtoons/${row.getValue("provider")}/${row.getValue("series")}/${row.getValue("slug")}`} passHref>
-          {row.getValue("shortTitle")}
+        <Link href={`/webtoons/${row.getValue("provider")}/${row.getValue("series")}/${row.getValue("slug")}`}>
+          <div>{row.getValue("shortTitle")}</div>
         </Link>
       )
     },

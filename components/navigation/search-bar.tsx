@@ -8,6 +8,7 @@ import {
   CommandDialog,
   CommandEmpty,
   CommandInput,
+  CommandItem,
   CommandList,
 } from '@/components/ui/command';
 
@@ -108,33 +109,19 @@ export function SearchBar() {
       <CommandDialog open={isOpen} onOpenChange={handleClose}>
         <CommandInput placeholder="Search all providers and webtoons..." onValueChange={setQuery} onKeyDown={onEnter} />
         <CommandList>
-          {results.length === 0 ? (
-            <CommandEmpty>No results found</CommandEmpty>
-          ) : (
-            results.map((result) => (
-              <CommandEmpty key={result.slug} className='items-start mb-2'>
-                <Link href={`/webtoons/${result.provider}/${result.slug}`} passHref>
-                  <div className="m-4 flex-auto">
-                    <p className="text-md font-medium text-neutral-200 truncate">
-                      {result.title}
-                    </p>
-                    <p className="text-sm text-neutral-500 mt-1" dangerouslySetInnerHTML={{ __html: result.synopsis }} />
-                    {/* <span className="mr-2">
-                        Ongoing
-                      </span>
-
-                      <span className="mr-2">
-                         5 months ago
-                      </span>
-
-                      <span className="mr-2">
-                         75 Chapters
-                      </span> */}
-                  </div>
-                </Link>
-              </CommandEmpty>
-            ))
-          )}
+          <CommandEmpty>No results found</CommandEmpty>
+          {results.map((result) => (
+            <CommandItem key={result.slug} value={result.slug}>
+              <Link href={`/webtoons/${result.provider}/${result.slug}`} passHref onClick={() => handleClose(false)}>
+                <div className="mx-2 flex-auto w-full">
+                  <p className="text-md font-medium text-neutral-200">
+                    {result.title}
+                  </p>
+                  <p className="text-sm text-neutral-500 mt-1 line-clamp-3" dangerouslySetInnerHTML={{ __html: result.synopsis }} />
+                </div>
+              </Link>
+            </CommandItem>
+          ))}
         </CommandList>
       </CommandDialog>
     </div>
