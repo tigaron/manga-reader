@@ -68,7 +68,7 @@ export default function Chapter({ params }: ChapterProps) {
             alt={chapterData.fullTitle}
             width={0}
             height={0}
-            sizes="50vw"
+            sizes="100vw"
             className="w-full h-full"
             quality={100}
           />
