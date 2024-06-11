@@ -62,7 +62,16 @@ export default function Chapter({ params }: ChapterProps) {
       <ChapterPagination hasPrev={!!chapterData.chapterNav.prevSlug} prevURL={`/webtoons/${provider}/${webtoon}/${chapterData.chapterNav.prevSlug}`} hasNext={!!chapterData.chapterNav.nextSlug} nextURL={`/webtoons/${provider}/${webtoon}/${chapterData.chapterNav.nextSlug}`} />
       <div className="flex flex-col">
         {chapterData.contentURLs.map((contentURL, index) => (
-          <Image key={index} src={contentURL} alt={chapterData.fullTitle} width={800} height={1200} />
+          <Image
+            key={index}
+            src={contentURL}
+            alt={chapterData.fullTitle}
+            width={0}
+            height={0}
+            sizes="50vw"
+            className="w-full h-full"
+            quality={100}
+          />
         ))}
       </div>
       <ChapterPagination hasPrev={!!chapterData.chapterNav.prevSlug} prevURL={`/webtoons/${provider}/${webtoon}/${chapterData.chapterNav.prevSlug}`} hasNext={!!chapterData.chapterNav.nextSlug} nextURL={`/webtoons/${provider}/${webtoon}/${chapterData.chapterNav.nextSlug}`} />
