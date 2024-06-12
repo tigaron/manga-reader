@@ -1,80 +1,71 @@
-"use client"
+"use client";
 
-import { useQuery } from "@tanstack/react-query"
-import Image from "next/image"
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import Image from "next/image";
 
-import { StatusError, StatusInfo, StatusPending } from "@/components/status-ui"
-import { ChapterPagination } from "@/components/chapter-pagination"
+import { fetchChapter } from "@/lib/requests/fetch-chapter";
+
+import { StatusInfo, StatusPending } from "@/components/status-ui";
+
+import { ChapterPagination } from "./_components/chapter-pagination";
+import ChapterImage from "./_components/chapter-image";
 
 interface ChapterProps {
   params: {
-    provider: string
-    webtoon: string
-    chapter: string
-  }
-}
-
-interface ChapterResponse {
-  error: boolean
-  message: string
-  data: Chapter
-}
-
-interface Chapter {
-  provider: string
-  series: string
-  slug: string
-  fullTitle: string
-  shortTitle: string
-  number: number
-  sourceURL: string
-  chapterNav: {
-    nextSlug: string
-    nextURL: string
-    prevSlug: string
-    prevURL: string
-  }
-  contentURLs: string[]
-}
-
-async function fetchChapter(provider: string, webtoon: string, chapter: string) {
-  const response = await fetch(`https://manga-scraper.hostinger.fourleaves.studio/api/v1/chapters/${provider}/${webtoon}/${chapter}`)
-  const result: ChapterResponse = await response.json()
-  if (result.error) throw new Error(result.message)
-  return result.data as Chapter
+    provider: string;
+    webtoon: string;
+    chapter: string;
+  };
 }
 
 export default function Chapter({ params }: ChapterProps) {
-  const { provider, webtoon, chapter } = params
+  const { provider, webtoon, chapter } = params;
 
-  const { status, data: chapterData, error } = useQuery({
+  const {
+    status,
+    data: chapterData,
+    error,
+  } = useQuery({
     queryKey: ["chapter", provider, webtoon, chapter],
     queryFn: () => fetchChapter(provider, webtoon, chapter),
-  })
+  });
 
-  if (status === 'pending') return <StatusPending message="Loading chapter..." />
-  if (error instanceof Error) return <StatusError message={error.message} />
-  if (!chapterData) return <StatusInfo message="No chapter found." />
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
+
+  if (status === "pending")
+    return <StatusPending message="Loading chapter..." />;
+  if (!chapterData) return <StatusInfo message="Chapter not found" />;
 
   return (
-    <div className="flex flex-col justify-center items-center max-w-screen-2xl mx-auto">
-      <h1 className="text-2xl font-bold tracking-tight">{chapterData.fullTitle}</h1>
-      <ChapterPagination hasPrev={!!chapterData.chapterNav.prevSlug} prevURL={`/webtoons/${provider}/${webtoon}/${chapterData.chapterNav.prevSlug}`} hasNext={!!chapterData.chapterNav.nextSlug} nextURL={`/webtoons/${provider}/${webtoon}/${chapterData.chapterNav.nextSlug}`} />
-      <div className="flex flex-col">
+    <div className="mx-auto flex max-w-screen-2xl flex-col items-center justify-center space-y-2 text-center">
+      <h1 className="text-2xl font-bold tracking-tight">
+        {chapterData.fullTitle}
+      </h1>
+      <ChapterPagination
+        provider={provider}
+        webtoon={webtoon}
+        chapterNav={chapterData.chapterNav}
+      />
+      <div className="flex w-full flex-col items-center justify-center">
         {chapterData.contentURLs.map((contentURL, index) => (
-          <Image
+          <ChapterImage
             key={index}
-            src={contentURL}
-            alt={chapterData.fullTitle}
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-full h-full"
-            quality={100}
+            contentURL={contentURL}
+            fullTitle={chapterData.fullTitle}
           />
         ))}
       </div>
-      <ChapterPagination hasPrev={!!chapterData.chapterNav.prevSlug} prevURL={`/webtoons/${provider}/${webtoon}/${chapterData.chapterNav.prevSlug}`} hasNext={!!chapterData.chapterNav.nextSlug} nextURL={`/webtoons/${provider}/${webtoon}/${chapterData.chapterNav.nextSlug}`} />
+      <ChapterPagination
+        provider={provider}
+        webtoon={webtoon}
+        chapterNav={chapterData.chapterNav}
+      />
     </div>
-  )
+  );
 }

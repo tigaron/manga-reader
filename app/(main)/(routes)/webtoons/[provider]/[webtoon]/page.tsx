@@ -1,33 +1,45 @@
-"use client"
+"use client";
 
-import { useQuery } from "@tanstack/react-query"
-import Image from "next/image"
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
-import { ChapterTable, fetchChapterList } from "@/components/chapter-table"
-import { StatusError, StatusInfo, StatusPending } from "@/components/status-ui"
+import { ChapterTable, fetchChapterList } from "@/components/chapter-table";
+import { StatusInfo, StatusPending } from "@/components/status-ui";
 
 interface WebtoonProps {
   params: {
-    provider: string
-    webtoon: string
-  }
+    provider: string;
+    webtoon: string;
+  };
 }
 
 export default function Webtoon({ params }: WebtoonProps) {
-  const { provider, webtoon } = params
+  const { provider, webtoon } = params;
 
-  const { status, data: listChapter, error } = useQuery({
+  const {
+    status,
+    data: listChapter,
+    error,
+  } = useQuery({
     queryKey: ["chapters", provider, webtoon],
     queryFn: () => fetchChapterList(provider, webtoon),
-  })
+  });
 
-  if (status === 'pending') return <StatusPending message="Loading chapters..." />
-  if (error instanceof Error) return <StatusError message={error.message} />
-  if (!listChapter) return <StatusInfo message="No chapters found." />
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
+
+  if (status === "pending")
+    return <StatusPending message="Loading chapters..." />;
+  if (!listChapter) return <StatusInfo message="No chapters found." />;
 
   return (
-    <div className="max-w-screen-xl flex-col gap-2 p-8 mx-auto">
-      <div className="flex flex-col gap-2 items-center">
+    <div className="mx-auto max-w-screen-xl flex-col gap-2 p-8">
+      <div className="flex flex-col items-center gap-2">
         <h2 className="text-2xl font-bold tracking-tight">
           {listChapter.series.title}
         </h2>
@@ -40,12 +52,15 @@ export default function Webtoon({ params }: WebtoonProps) {
         />
       </div>
       <div>
-        <p className="text-lg mt-2" dangerouslySetInnerHTML={{ __html: listChapter.series.synopsis }} />
+        <p
+          className="mt-2 text-lg"
+          dangerouslySetInnerHTML={{ __html: listChapter.series.synopsis }}
+        />
         <p className="text-md text-muted-foreground">
           Genres: {listChapter.series.genres.join(", ")}
         </p>
       </div>
       <ChapterTable chapters={listChapter.chapters} />
     </div>
-  )
+  );
 }
