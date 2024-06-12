@@ -42,10 +42,10 @@ export default function ChapterImage({
         src={contentURL}
         alt={fullTitle}
         className="h-auto w-full"
-        quality={100}
         sizes="100vw"
         height={0}
         width={0}
+        unoptimized
       />
     </div>
   );
