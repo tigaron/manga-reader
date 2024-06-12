@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { NavMenu } from "@/components/navigation/navigation-menu"
-import { SearchBar } from "@/components/navigation/search-bar"
-import { SiteIcon } from "@/components/navigation/site-icon"
-import { MobileToggle } from "@/components/navigation/mobile-toggle"
-import { ThemeToggle } from "@/components/navigation/theme-toggle"
+import { NavMenu } from "@/components/navigation/navigation-menu";
+import { SearchBar } from "@/components/navigation/search-bar";
+import { SiteIcon } from "@/components/navigation/site-icon";
+import { MobileToggle } from "@/components/navigation/mobile-toggle";
+import { ThemeToggle } from "@/components/navigation/theme-toggle";
 
 export function NavBar() {
   return (
@@ -21,5 +21,5 @@ export function NavBar() {
         </div>
       </div>
     </header>
-  )
+  );
 }

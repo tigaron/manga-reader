@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState, useLayoutEffect } from "react";
 
@@ -14,7 +14,7 @@ export function useBreakpoints() {
     isLg: useMediaQuery("(min-width: 1025px)"),
     active: "SSR",
   };
-  
+
   useLayoutEffect(() => {
     if (typeof window !== "undefined") setIsClient(true);
   }, []);

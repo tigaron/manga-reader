@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import Link from "next/link"
+import Link from "next/link";
 
 import {
   NavigationMenu,
@@ -8,10 +8,10 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
-const components: { title: string; href: string; }[] = [
+const components: { title: string; href: string }[] = [
   {
     title: "Home",
     href: "/",
@@ -24,7 +24,7 @@ const components: { title: string; href: string; }[] = [
     title: "Bookmark",
     href: "/bookmark",
   },
-]
+];
 
 export function NavMenu() {
   return (
@@ -32,15 +32,13 @@ export function NavMenu() {
       <NavigationMenuList>
         {components.map((component) => (
           <NavigationMenuItem key={component.title}>
-            <Link
-              href={component.href}
-              legacyBehavior
-              passHref
-            >
-              <NavigationMenuLink className={cn(
-                navigationMenuTriggerStyle(),
-                "bg-transparent hover:bg-transparent focus:bg-transparent",
-              )}>
+            <Link href={component.href} legacyBehavior passHref>
+              <NavigationMenuLink
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "bg-transparent hover:bg-transparent focus:bg-transparent",
+                )}
+              >
                 {component.title}
               </NavigationMenuLink>
             </Link>
@@ -48,5 +46,5 @@ export function NavMenu() {
         ))}
       </NavigationMenuList>
     </NavigationMenu>
-  )
+  );
 }

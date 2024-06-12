@@ -1,5 +1,3 @@
 export default function Bookmark() {
-  return (
-    <div>Bookmark</div>
-  )
+  return <div>Bookmark</div>;
 }

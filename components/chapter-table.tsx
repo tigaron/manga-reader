@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   ColumnDef,
@@ -7,43 +7,40 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import Link from "next/link"
-import { useState } from "react"
+} from "@tanstack/react-table";
+import Link from "next/link";
+import { useState } from "react";
 
-import { Webtoon } from "@/components/webtoon-card"
-import { Input } from "@/components/ui/input"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@/components/ui/table"
+import { Webtoon } from "@/components/webtoon-card";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 interface ListChapterResponse {
-  error: boolean
-  message: string
-  data: ListChapterData
+  error: boolean;
+  message: string;
+  data: ListChapterData;
 }
 
 interface ListChapterData {
-  series: Webtoon
-  chapters: ListChapter[]
+  series: Webtoon;
+  chapters: ListChapter[];
 }
 
 interface ListChapter {
-  provider: string
-  series: string
-  slug: string
-  shortTitle: string
-  number: number
+  provider: string;
+  series: string;
+  slug: string;
+  shortTitle: string;
+  number: number;
 }
 
 export async function fetchChapterList(provider: string, webtoon: string) {
-  const response = await fetch(`https://manga-scraper.hostinger.fourleaves.studio/api/v1/chapters/${provider}/${webtoon}/_list`)
-  const result: ListChapterResponse = await response.json()
-  if (result.error) throw new Error(result.message)
-  return result.data as ListChapterData
+  const response = await fetch(
+    `https://manga-scraper.hostinger.fourleaves.studio/api/v1/chapters/${provider}/${webtoon}/_list`,
+  );
+  const result: ListChapterResponse = await response.json();
+  if (result.error) throw new Error(result.message);
+  return result.data as ListChapterData;
 }
 
 const columns: ColumnDef<ListChapter>[] = [
@@ -51,10 +48,12 @@ const columns: ColumnDef<ListChapter>[] = [
     accessorKey: "shortTitle",
     cell: ({ row }) => {
       return (
-        <Link href={`/webtoons/${row.getValue("provider")}/${row.getValue("series")}/${row.getValue("slug")}`}>
+        <Link
+          href={`/webtoons/${row.getValue("provider")}/${row.getValue("series")}/${row.getValue("slug")}`}
+        >
           <div>{row.getValue("shortTitle")}</div>
         </Link>
-      )
+      );
     },
   },
   {
@@ -69,14 +68,10 @@ const columns: ColumnDef<ListChapter>[] = [
   {
     accessorKey: "number",
   },
-]
+];
 
-export function ChapterTable({
-  chapters,
-}: {
-  chapters: ListChapter[]
-}) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+export function ChapterTable({ chapters }: { chapters: ListChapter[] }) {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data: chapters,
@@ -85,14 +80,16 @@ export function ChapterTable({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     state: { columnFilters },
-  })
+  });
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
           placeholder="Search chapter..."
-          value={(table.getColumn("shortTitle")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("shortTitle")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("shortTitle")?.setFilterValue(event.target.value)
           }
@@ -104,17 +101,18 @@ export function ChapterTable({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                >
-                  {row.getVisibleCells().filter((cell) => cell.id.includes("shortTitle")).map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                <TableRow key={row.id}>
+                  {row
+                    .getVisibleCells()
+                    .filter((cell) => cell.id.includes("shortTitle"))
+                    .map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
                 </TableRow>
               ))
             ) : (
@@ -131,5 +129,5 @@ export function ChapterTable({
         </Table>
       </div>
     </div>
-  )
+  );
 }
