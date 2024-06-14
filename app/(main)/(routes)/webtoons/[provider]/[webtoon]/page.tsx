@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { ChapterTable, fetchChapterList } from "@/components/chapter-table";
 import { StatusInfo, StatusPending } from "@/components/status-ui";
+import { BreadcrumbComponent, BreadcrumbPage } from "@/components/breadcrumb";
 
 interface WebtoonProps {
   params: {
@@ -17,6 +18,22 @@ interface WebtoonProps {
 
 export default function Webtoon({ params }: WebtoonProps) {
   const { provider, webtoon } = params;
+
+  const breadcrumbItems: BreadcrumbPage[] = [
+    {
+      title: "Webtoons",
+      href: "/webtoons",
+    },
+    {
+      title: provider,
+      href: `/webtoons/${provider}`,
+    },
+  ];
+
+  const breadcrumbCurrent: BreadcrumbPage = {
+    title: webtoon,
+    href: `/webtoons/${provider}/${webtoon}`,
+  };
 
   const {
     status,
@@ -40,9 +57,13 @@ export default function Webtoon({ params }: WebtoonProps) {
   return (
     <div className="mx-auto max-w-screen-xl flex-col gap-2 p-8">
       <div className="flex flex-col items-center gap-2">
-        <h2 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-2xl font-bold tracking-tight">
           {listChapter.series.title}
-        </h2>
+        </h1>
+        <BreadcrumbComponent
+          items={breadcrumbItems}
+          currentItem={breadcrumbCurrent}
+        />
         <Image
           src={listChapter.series.coverURL}
           alt={listChapter.series.title}

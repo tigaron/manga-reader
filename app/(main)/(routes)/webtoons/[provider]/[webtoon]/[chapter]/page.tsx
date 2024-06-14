@@ -3,11 +3,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import Image from "next/image";
 
 import { fetchChapter } from "@/lib/requests/fetch-chapter";
 
 import { StatusInfo, StatusPending } from "@/components/status-ui";
+import { BreadcrumbComponent, BreadcrumbPage } from "@/components/breadcrumb";
 
 import { ChapterPagination } from "./_components/chapter-pagination";
 import ChapterImage from "./_components/chapter-image";
@@ -22,6 +22,26 @@ interface ChapterProps {
 
 export default function Chapter({ params }: ChapterProps) {
   const { provider, webtoon, chapter } = params;
+
+  const breadcrumbItems: BreadcrumbPage[] = [
+    {
+      title: "Webtoons",
+      href: "/webtoons",
+    },
+    {
+      title: provider,
+      href: `/webtoons/${provider}`,
+    },
+    {
+      title: webtoon,
+      href: `/webtoons/${provider}/${webtoon}`,
+    },
+  ];
+
+  const breadcrumbCurrent: BreadcrumbPage = {
+    title: chapter,
+    href: `/webtoons/${provider}/${webtoon}/${chapter}`,
+  };
 
   const {
     status,
@@ -43,10 +63,14 @@ export default function Chapter({ params }: ChapterProps) {
   if (!chapterData) return <StatusInfo message="Chapter not found" />;
 
   return (
-    <div className="mx-auto flex max-w-screen-2xl flex-col items-center justify-center space-y-2 text-center">
+    <div className="mx-auto flex max-w-screen-2xl flex-col items-center justify-center space-y-4 px-4 text-center md:px-0">
       <h1 className="text-2xl font-bold tracking-tight">
         {chapterData.fullTitle}
       </h1>
+      <BreadcrumbComponent
+        items={breadcrumbItems}
+        currentItem={breadcrumbCurrent}
+      />
       <ChapterPagination
         provider={provider}
         webtoon={webtoon}
@@ -57,7 +81,7 @@ export default function Chapter({ params }: ChapterProps) {
           <ChapterImage
             key={index}
             contentURL={contentURL}
-            fullTitle={chapterData.fullTitle}
+            fullTitle={chapterData.slug + "-image-" + index}
           />
         ))}
       </div>
