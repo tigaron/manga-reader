@@ -1,4 +1,5 @@
 import { env } from "@/env.mjs";
+import { useAuth } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 
 interface ChapterResponse {
@@ -29,8 +30,15 @@ export async function fetchChapter(
   webtoon: string,
   chapter: string,
 ) {
+  const { getToken } = useAuth();
+  const token = await getToken();
   const response = await fetch(
     `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/chapters/${provider}/${webtoon}/${chapter}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   const result: ChapterResponse = await response.json();
   if (result.error) throw new Error(result.message);

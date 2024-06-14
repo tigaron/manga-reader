@@ -5,6 +5,7 @@ import { NavMenu } from "@/components/navigation/navigation-menu";
 import { SearchBar } from "@/components/navigation/search-bar";
 import { SiteIcon } from "@/components/navigation/site-icon";
 import { ThemeToggle } from "@/components/navigation/theme-toggle";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 export function NavBar() {
   return (
@@ -18,6 +19,12 @@ export function NavBar() {
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <SearchBar />
           <ThemeToggle />
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </div>
     </header>
