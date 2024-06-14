@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+
 interface ChapterResponse {
   error: boolean;
   message: string;
@@ -32,4 +34,11 @@ export async function fetchChapter(
   const result: ChapterResponse = await response.json();
   if (result.error) throw new Error(result.message);
   return result.data as Chapter;
+}
+
+export function useChapter(provider: string, webtoon: string, chapter: string) {
+  return useQuery({
+    queryKey: ["chapter", provider, webtoon, chapter],
+    queryFn: () => fetchChapter(provider, webtoon, chapter),
+  });
 }

@@ -1,13 +1,13 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-import { fetchChapter } from "@/lib/requests/fetch-chapter";
+import { useBreadcrumbChapters } from "@/hooks/use-breadcrumb";
+import { useChapter } from "@/hooks/use-chapter";
 
 import { StatusInfo, StatusPending } from "@/components/status-ui";
-import { BreadcrumbComponent, BreadcrumbPage } from "@/components/breadcrumb";
+import { BreadcrumbComponent } from "@/components/breadcrumb";
 
 import { ChapterPagination } from "./_components/chapter-pagination";
 import ChapterImage from "./_components/chapter-image";
@@ -22,35 +22,16 @@ interface ChapterProps {
 
 export default function Chapter({ params }: ChapterProps) {
   const { provider, webtoon, chapter } = params;
-
-  const breadcrumbItems: BreadcrumbPage[] = [
-    {
-      title: "Webtoons",
-      href: "/webtoons",
-    },
-    {
-      title: provider,
-      href: `/webtoons/${provider}`,
-    },
-    {
-      title: webtoon,
-      href: `/webtoons/${provider}/${webtoon}`,
-    },
-  ];
-
-  const breadcrumbCurrent: BreadcrumbPage = {
-    title: chapter,
-    href: `/webtoons/${provider}/${webtoon}/${chapter}`,
-  };
-
+  const { breadcrumbItems, breadcrumbCurrent } = useBreadcrumbChapters(
+    provider,
+    webtoon,
+    chapter,
+  );
   const {
     status,
     data: chapterData,
     error,
-  } = useQuery({
-    queryKey: ["chapter", provider, webtoon, chapter],
-    queryFn: () => fetchChapter(provider, webtoon, chapter),
-  });
+  } = useChapter(provider, webtoon, chapter);
 
   useEffect(() => {
     if (error) {

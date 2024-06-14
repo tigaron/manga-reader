@@ -1,11 +1,11 @@
 "use client";
 
-import {
-  Provider,
-  ProvidersComboBoxResponsive,
-} from "@/components/combobox/providers";
-import { WebtoonCard } from "@/components/webtoon-card";
 import { useState } from "react";
+
+import { Provider } from "@/hooks/use-webtoon-providers";
+
+import { ProvidersComboBoxResponsive } from "./_components/providers-combobox";
+import { WebtoonCard } from "./_components/webtoon-card";
 
 export default function Webtoons() {
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(

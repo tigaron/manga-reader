@@ -3,47 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, Fragment } from "react";
 
+import { useWebtoons } from "@/hooks/use-webtoons";
+import { Provider } from "@/hooks/use-webtoon-providers";
+
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
-import { Provider } from "@/components/combobox/providers";
 import { StatusError, StatusInfo, StatusPending } from "@/components/status-ui";
-
-interface WebtoonResponse {
-  error: boolean;
-  message: string;
-  data: WebtoonData;
-}
-
-interface WebtoonData {
-  prevPage: number;
-  nextPage: number;
-  series: Webtoon[];
-}
-
-export interface Webtoon {
-  provider: string;
-  slug: string;
-  title: string;
-  sourceURL: string;
-  coverURL: string;
-  synopsis: string;
-  genres: string[];
-}
-
-export async function getWebtoons(
-  provider: string,
-  page: number,
-  size: number,
-): Promise<WebtoonData> {
-  const response = await fetch(
-    `https://manga-scraper.hostinger.fourleaves.studio/api/v1/series/${provider}?page=${page}&size=${size}`,
-  );
-  const result: WebtoonResponse = await response.json();
-  if (result.error) throw new Error(result.message);
-  return result.data as WebtoonData;
-}
 
 export function WebtoonCard({
   selectedProvider,
@@ -51,7 +17,6 @@ export function WebtoonCard({
   selectedProvider: Provider | null;
 }) {
   const { ref, inView } = useInView();
-
   const {
     status,
     data: webtoons,
@@ -59,14 +24,7 @@ export function WebtoonCard({
     isFetching,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["webtoons", selectedProvider?.slug],
-    queryFn: ({ pageParam = 1 }) =>
-      getWebtoons(selectedProvider!.slug, pageParam, 10),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
-    enabled: !!selectedProvider,
-  });
+  } = useWebtoons(selectedProvider?.slug ?? "", !!selectedProvider);
 
   useEffect(() => {
     if (inView && hasNextPage) {

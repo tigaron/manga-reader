@@ -1,12 +1,13 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
-
-import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { Provider, useWebtoonProviders } from "@/hooks/use-webtoon-providers";
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -22,27 +23,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { toast } from "sonner";
-
-export interface ProviderResponse {
-  error: boolean;
-  message: string;
-  data: Provider[];
-}
-
-export interface Provider {
-  name: string;
-  slug: string;
-}
-
-export async function fetchProviders() {
-  const response = await fetch(
-    "https://manga-scraper.hostinger.fourleaves.studio/api/v1/providers",
-  );
-  const result: ProviderResponse = await response.json();
-  if (result.error) throw new Error(result.message);
-  return result.data as Provider[];
-}
 
 export function ProvidersComboBoxResponsive({
   selectedProvider,
@@ -53,15 +33,13 @@ export function ProvidersComboBoxResponsive({
 }) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { data: providers, error } = useWebtoonProviders();
 
-  const { data: providers } = useQuery({
-    queryKey: ["providers"],
-    queryFn: fetchProviders,
-    throwOnError: (error) => {
+  useEffect(() => {
+    if (error) {
       toast.error(error.message);
-      return false;
-    },
-  });
+    }
+  }, [error]);
 
   if (isDesktop) {
     return (

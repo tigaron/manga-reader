@@ -1,13 +1,16 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-import { ChapterTable, fetchChapterList } from "@/components/chapter-table";
+import { useBreadcrumbWebtoons } from "@/hooks/use-breadcrumb";
+import { useChapterList } from "@/hooks/use-chapter-list";
+
 import { StatusInfo, StatusPending } from "@/components/status-ui";
-import { BreadcrumbComponent, BreadcrumbPage } from "@/components/breadcrumb";
+import { BreadcrumbComponent } from "@/components/breadcrumb";
+
+import { ChapterTable } from "./_components/chapter-table";
 
 interface WebtoonProps {
   params: {
@@ -18,31 +21,15 @@ interface WebtoonProps {
 
 export default function Webtoon({ params }: WebtoonProps) {
   const { provider, webtoon } = params;
-
-  const breadcrumbItems: BreadcrumbPage[] = [
-    {
-      title: "Webtoons",
-      href: "/webtoons",
-    },
-    {
-      title: provider,
-      href: `/webtoons/${provider}`,
-    },
-  ];
-
-  const breadcrumbCurrent: BreadcrumbPage = {
-    title: webtoon,
-    href: `/webtoons/${provider}/${webtoon}`,
-  };
-
+  const { breadcrumbItems, breadcrumbCurrent } = useBreadcrumbWebtoons(
+    provider,
+    webtoon,
+  );
   const {
     status,
     data: listChapter,
     error,
-  } = useQuery({
-    queryKey: ["chapters", provider, webtoon],
-    queryFn: () => fetchChapterList(provider, webtoon),
-  });
+  } = useChapterList(provider, webtoon);
 
   useEffect(() => {
     if (error) {
