@@ -6,12 +6,7 @@ import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, Fragment } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { Provider } from "@/components/combobox/providers";
 import { StatusError, StatusInfo, StatusPending } from "@/components/status-ui";
 

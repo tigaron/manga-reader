@@ -16,7 +16,7 @@ export default function ChapterImage({
   const [error, setError] = useState(false);
 
   return (
-    <div className="mx-auto w-full px-4">
+    <div className="mx-auto w-full">
       {loading && (
         <div className="mx-auto mb-2 w-full animate-pulse">
           <div className="flex h-48 w-full items-center justify-center rounded bg-gray-300 dark:bg-gray-700">
@@ -34,7 +34,7 @@ export default function ChapterImage({
       )}
       {error && <p className="text-center">Failed to load image</p>}
       <Image
-        onLoad={() => setLoading(false)}
+        onLoadingComplete={() => setLoading(false)}
         onError={() => {
           setLoading(false);
           setError(true);

@@ -1,5 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+
+import { buttonVariants } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -24,10 +27,16 @@ export function ChapterPagination({
 }: PaginationProps) {
   return (
     <Pagination>
-      <PaginationContent>
+      <PaginationContent className="w-full justify-between px-0 sm:px-20 md:px-40 lg:px-60 xl:px-80">
         {!!chapterNav.prevSlug && (
           <PaginationItem>
             <PaginationPrevious
+              className={cn(
+                buttonVariants({
+                  variant: "secondary",
+                }),
+                "w-28",
+              )}
               href={`/webtoons/${provider}/${webtoon}/${chapterNav.prevSlug}`}
             />
           </PaginationItem>
@@ -35,6 +44,12 @@ export function ChapterPagination({
         {!!chapterNav.nextSlug && (
           <PaginationItem>
             <PaginationNext
+              className={cn(
+                buttonVariants({
+                  variant: "secondary",
+                }),
+                "w-28",
+              )}
               href={`/webtoons/${provider}/${webtoon}/${chapterNav.nextSlug}`}
             />
           </PaginationItem>

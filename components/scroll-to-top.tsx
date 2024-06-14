@@ -5,6 +5,8 @@ import { ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+import { Button } from "@/components/ui/button";
+
 export function ScrollToTopButton() {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -28,14 +30,16 @@ export function ScrollToTopButton() {
   };
 
   return (
-    <button
+    <Button
+      onClick={scrollToTop}
+      size="icon"
+      variant="secondary"
       className={cn(
-        "fixed bottom-4 right-4 rounded-full bg-zinc-100 p-1 text-zinc-500 shadow-md dark:bg-zinc-700 dark:text-zinc-400",
+        "fixed bottom-4 right-4 rounded-full",
         isVisible ? "visible" : "invisible",
       )}
-      onClick={scrollToTop}
     >
-      <ChevronUp className="h-4 w-4" />
-    </button>
+      <ChevronUp className="h-5 w-5" />
+    </Button>
   );
 }
