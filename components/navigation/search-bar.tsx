@@ -1,82 +1,31 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
+
+import useDebounce from "@/hooks/use-debounce";
+import { useSearchResult } from "@/hooks/use-search-result";
+import { cn } from "@/lib/utils";
 
 import {
   CommandDialog,
   CommandEmpty,
   CommandInput,
-  CommandItem,
   CommandList,
 } from "@/components/ui/command";
-
-interface SearchResponse {
-  error: boolean;
-  message: string;
-  data: SearchResponseData[];
-}
-
-interface SearchResponseData {
-  provider: string;
-  slug: string;
-  title: string;
-  synopsis: string;
-  genres: string[];
-}
-
-async function search(query: string): Promise<SearchResponseData[]> {
-  const encodedQuery = encodeURIComponent(query);
-  const response = await fetch(
-    `https://manga-scraper.hostinger.fourleaves.studio/api/v1/search?q=${encodedQuery}`,
-  );
-  const result: SearchResponse = await response.json();
-  if (result.error) throw new Error(result.message);
-  return result.data as SearchResponseData[];
-}
 
 export function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<SearchResponseData[]>([]);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleSearch = async (q: string) => {
-    try {
-      const data = await search(q);
-      setResults(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const debouncedSearchTerm = useDebounce(query, 500);
+  const { data } = useSearchResult(debouncedSearchTerm);
 
   const handleClose = (open: boolean) => {
-    if (!open) {
-      setQuery("");
-      setResults([]);
-    }
     setIsOpen(open);
+    setQuery("");
   };
-
-  const onEnter = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== "Enter") return;
-    if (timerRef.current) clearTimeout(timerRef.current);
-    await handleSearch(query);
-  };
-
-  useEffect(() => {
-    if (query === "") {
-      setResults([]);
-      return;
-    }
-
-    if (timerRef.current) clearTimeout(timerRef.current);
-
-    timerRef.current = setTimeout(async () => {
-      await handleSearch(query);
-    }, 500);
-  }, [query]);
 
   useEffect(() => {
     const keydownHandler = (event: KeyboardEvent) => {
@@ -108,29 +57,36 @@ export function SearchBar() {
         <CommandInput
           placeholder="Search all providers and webtoons..."
           onValueChange={setQuery}
-          onKeyDown={onEnter}
         />
-        <CommandList>
-          <CommandEmpty>No results found</CommandEmpty>
-          {results.map((result) => (
-            <CommandItem key={result.slug} value={result.slug}>
-              <Link
-                href={`/webtoons/${result.provider}/${result.slug}`}
-                passHref
-                onClick={() => handleClose(false)}
-              >
-                <div className="mx-2 w-full flex-auto">
-                  <p className="text-md font-medium text-neutral-200">
-                    {result.title}
-                  </p>
-                  <p
-                    className="mt-1 line-clamp-3 text-sm text-neutral-500"
-                    dangerouslySetInnerHTML={{ __html: result.synopsis }}
-                  />
-                </div>
-              </Link>
-            </CommandItem>
-          ))}
+        <CommandList className="space-y-2">
+          {!data && <CommandEmpty>No results found</CommandEmpty>}
+          {data &&
+            data.map((result, index) => {
+              if (!result.title) return null;
+              return (
+                <Link
+                  key={result.slug}
+                  href={`/webtoons/${result.provider}/${result.slug}`}
+                  passHref
+                  onClick={() => handleClose(false)}
+                >
+                  <div
+                    className={cn(
+                      "m-2",
+                      index !== 0 && "border-t border-neutral-500 py-1",
+                    )}
+                  >
+                    <p className="text-md font-medium text-neutral-200">
+                      {result.title}
+                    </p>
+                    <p
+                      className="mt-1 line-clamp-3 text-sm text-neutral-500"
+                      dangerouslySetInnerHTML={{ __html: result.synopsis }}
+                    />
+                  </div>
+                </Link>
+              );
+            })}
         </CommandList>
       </CommandDialog>
     </div>
