@@ -1,11 +1,10 @@
 import "./globals.css";
 
-import type { Metadata } from "next";
-
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import QueryProviders from "@/components/providers/query-provider";
-import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ScrollToTopButton } from "@/components/scroll-to-top";
+import { Toaster } from "@/components/ui/sonner";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Manga Reader",

@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import { useQuery } from "@tanstack/react-query";
 
 interface ProviderResponse {
@@ -13,7 +14,7 @@ export interface Provider {
 
 export async function fetchWebtoonProviders() {
   const response = await fetch(
-    "https://manga-scraper.hostinger.fourleaves.studio/api/v1/providers",
+    `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/providers`,
   );
   const result: ProviderResponse = await response.json();
   if (result.error) throw new Error(result.message);

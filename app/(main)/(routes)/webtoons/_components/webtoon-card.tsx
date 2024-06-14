@@ -1,15 +1,13 @@
 "use client";
 
+import { StatusError, StatusInfo, StatusPending } from "@/components/status-ui";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import { Provider } from "@/hooks/use-webtoon-providers";
+import { useWebtoons } from "@/hooks/use-webtoons";
 import Image from "next/image";
 import Link from "next/link";
+import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useEffect, Fragment } from "react";
-
-import { useWebtoons } from "@/hooks/use-webtoons";
-import { Provider } from "@/hooks/use-webtoon-providers";
-
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
-import { StatusError, StatusInfo, StatusPending } from "@/components/status-ui";
 
 export function WebtoonCard({
   selectedProvider,

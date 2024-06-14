@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import { useQuery } from "@tanstack/react-query";
 
 interface SearchResponse {
@@ -17,7 +18,7 @@ export interface SearchData {
 export async function fetchSearchResult(query: string): Promise<SearchData[]> {
   const encodedQuery = encodeURIComponent(query);
   const response = await fetch(
-    `https://manga-scraper.hostinger.fourleaves.studio/api/v1/search?q=${encodedQuery}`,
+    `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search?q=${encodedQuery}`,
   );
   const result: SearchResponse = await response.json();
   if (result.error) throw new Error(result.message);

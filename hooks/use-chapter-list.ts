@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import { useQuery } from "@tanstack/react-query";
 
 import { Webtoon } from "./use-webtoons";
@@ -23,7 +24,7 @@ export interface ListChapter {
 
 export async function fetchChapterList(provider: string, webtoon: string) {
   const response = await fetch(
-    `https://manga-scraper.hostinger.fourleaves.studio/api/v1/chapters/${provider}/${webtoon}/_list`,
+    `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/chapters/${provider}/${webtoon}/_list`,
   );
   const result: ListChapterResponse = await response.json();
   if (result.error) throw new Error(result.message);

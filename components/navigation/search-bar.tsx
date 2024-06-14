@@ -1,19 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { Search } from "lucide-react";
-
-import useDebounce from "@/hooks/use-debounce";
-import { useSearchResult } from "@/hooks/use-search-result";
-import { cn } from "@/lib/utils";
-
 import {
   CommandDialog,
   CommandEmpty,
   CommandInput,
   CommandList,
 } from "@/components/ui/command";
+import useDebounce from "@/hooks/use-debounce";
+import { useSearchResult } from "@/hooks/use-search-result";
+import { cn } from "@/lib/utils";
+import { Search } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);

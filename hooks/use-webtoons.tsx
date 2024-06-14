@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface WebtoonResponse {
@@ -28,7 +29,7 @@ export async function fetchWebtoons(
   size: number,
 ): Promise<WebtoonData> {
   const response = await fetch(
-    `https://manga-scraper.hostinger.fourleaves.studio/api/v1/series/${provider}?page=${page}&size=${size}`,
+    `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/series/${provider}?page=${page}&size=${size}`,
   );
   const result: WebtoonResponse = await response.json();
   if (result.error) throw new Error(result.message);

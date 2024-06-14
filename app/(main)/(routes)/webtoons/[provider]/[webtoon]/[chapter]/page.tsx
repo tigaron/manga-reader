@@ -1,16 +1,14 @@
 "use client";
 
+import { BreadcrumbComponent } from "@/components/breadcrumb";
+import { StatusInfo, StatusPending } from "@/components/status-ui";
+import { useBreadcrumbChapters } from "@/hooks/use-breadcrumb";
+import { useChapter } from "@/hooks/use-chapter";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-import { useBreadcrumbChapters } from "@/hooks/use-breadcrumb";
-import { useChapter } from "@/hooks/use-chapter";
-
-import { StatusInfo, StatusPending } from "@/components/status-ui";
-import { BreadcrumbComponent } from "@/components/breadcrumb";
-
-import { ChapterPagination } from "./_components/chapter-pagination";
 import ChapterImage from "./_components/chapter-image";
+import { ChapterPagination } from "./_components/chapter-pagination";
 
 interface ChapterProps {
   params: {

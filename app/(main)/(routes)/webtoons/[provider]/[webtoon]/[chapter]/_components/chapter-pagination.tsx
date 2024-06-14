@@ -1,7 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-
 import { buttonVariants } from "@/components/ui/button";
 import {
   Pagination,
@@ -10,6 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 
 interface PaginationProps {
   provider: string;

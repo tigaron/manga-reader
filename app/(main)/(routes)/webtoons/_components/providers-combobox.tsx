@@ -1,13 +1,5 @@
 "use client";
 
-import { Check, ChevronsUpDown } from "lucide-react";
-import { toast } from "sonner";
-import { useEffect, useState } from "react";
-
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { Provider, useWebtoonProviders } from "@/hooks/use-webtoon-providers";
-import { cn } from "@/lib/utils";
-
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -23,6 +15,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { Provider, useWebtoonProviders } from "@/hooks/use-webtoon-providers";
+import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export function ProvidersComboBoxResponsive({
   selectedProvider,

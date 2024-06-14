@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -10,6 +8,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const components: { title: string; href: string }[] = [
   {

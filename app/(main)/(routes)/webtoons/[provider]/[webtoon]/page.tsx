@@ -1,14 +1,12 @@
 "use client";
 
+import { BreadcrumbComponent } from "@/components/breadcrumb";
+import { StatusInfo, StatusPending } from "@/components/status-ui";
+import { useBreadcrumbWebtoons } from "@/hooks/use-breadcrumb";
+import { useChapterList } from "@/hooks/use-chapter-list";
 import Image from "next/image";
 import { useEffect } from "react";
 import { toast } from "sonner";
-
-import { useBreadcrumbWebtoons } from "@/hooks/use-breadcrumb";
-import { useChapterList } from "@/hooks/use-chapter-list";
-
-import { StatusInfo, StatusPending } from "@/components/status-ui";
-import { BreadcrumbComponent } from "@/components/breadcrumb";
 
 import { ChapterTable } from "./_components/chapter-table";
 
