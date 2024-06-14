@@ -27,9 +27,9 @@ export function ChapterPagination({
 }: PaginationProps) {
   return (
     <Pagination>
-      <PaginationContent className="w-full justify-between px-0 sm:px-20 md:px-40 lg:px-60 xl:px-80">
+      <PaginationContent className="w-full px-0 sm:px-20 md:px-40 lg:px-60 xl:px-80">
         {!!chapterNav.prevSlug && (
-          <PaginationItem>
+          <PaginationItem className="mr-auto">
             <PaginationPrevious
               className={cn(
                 buttonVariants({
@@ -42,7 +42,7 @@ export function ChapterPagination({
           </PaginationItem>
         )}
         {!!chapterNav.nextSlug && (
-          <PaginationItem>
+          <PaginationItem className="ml-auto">
             <PaginationNext
               className={cn(
                 buttonVariants({

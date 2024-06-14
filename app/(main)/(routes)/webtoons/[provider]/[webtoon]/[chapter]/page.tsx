@@ -63,7 +63,7 @@ export default function Chapter({ params }: ChapterProps) {
   if (!chapterData) return <StatusInfo message="Chapter not found" />;
 
   return (
-    <div className="mx-auto flex max-w-screen-2xl flex-col items-center justify-center space-y-4 px-4 text-center md:px-0">
+    <div className="mx-auto flex max-w-screen-2xl flex-col items-center justify-center space-y-4 px-2 text-center md:px-4 lg:px-0">
       <h1 className="text-2xl font-bold tracking-tight">
         {chapterData.fullTitle}
       </h1>
