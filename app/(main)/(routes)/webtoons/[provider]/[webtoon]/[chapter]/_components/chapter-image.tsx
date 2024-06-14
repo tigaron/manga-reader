@@ -32,7 +32,7 @@ export default function ChapterImage({
       <Image
         src={contentURL}
         alt={fullTitle}
-        className={`h-auto w-full ${loading ? 'invisible' : 'visible'}`}
+        className={`h-auto w-full ${loading ? "invisible" : "visible"}`}
         sizes="100vw"
         height={0}
         width={0}
