@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import {
   Breadcrumb as BCType,
   getBreadcrumbChapters,
@@ -55,8 +53,8 @@ export function BreadcrumbComponent({
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink>
-            <Link href="/">Home</Link>
+          <BreadcrumbLink href="/">
+            Home
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -75,8 +73,8 @@ export function BreadcrumbComponent({
                   key={index}
                   className="text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  <BreadcrumbLink>
-                    <Link href={item.href}>{item.title}</Link>
+                  <BreadcrumbLink href={item.href}>
+                    {item.title}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               ))}
