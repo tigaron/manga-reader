@@ -1,6 +1,6 @@
-import { env } from "@/env.mjs";
-import { useAuth } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
+
+import { env } from "@/env.mjs";
 
 interface ChapterResponse {
   error: boolean;

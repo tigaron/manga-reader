@@ -21,6 +21,7 @@ const config = {
     "<TYPES>",
     "<TYPES>^[./]",
     "",
+    "@/env.mjs",
     "^@/lib/(.*)$",
     "^@/hooks/(.*)$",
     "",

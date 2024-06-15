@@ -1,5 +1,6 @@
-import { env } from "@/env.mjs";
 import { useQuery } from "@tanstack/react-query";
+
+import { env } from "@/env.mjs";
 
 import { Webtoon } from "./use-webtoons";
 

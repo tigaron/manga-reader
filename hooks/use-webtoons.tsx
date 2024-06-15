@@ -1,5 +1,6 @@
-import { env } from "@/env.mjs";
 import { useInfiniteQuery } from "@tanstack/react-query";
+
+import { env } from "@/env.mjs";
 
 interface WebtoonResponse {
   error: boolean;
