@@ -1,11 +1,14 @@
 "use client";
 
-import { BreadcrumbComponent } from "@/components/breadcrumb";
-import { StatusInfo, StatusPending } from "@/components/status-ui";
+import { useAuth } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
 import { useBreadcrumbChapters } from "@/hooks/use-breadcrumb";
 import { useChapter } from "@/hooks/use-chapter";
-import { useEffect } from "react";
-import { toast } from "sonner";
+
+import { BreadcrumbComponent } from "@/components/breadcrumb";
+import { StatusInfo, StatusPending } from "@/components/status-ui";
 
 import ChapterImage from "./_components/chapter-image";
 import { ChapterPagination } from "./_components/chapter-pagination";
@@ -25,11 +28,22 @@ export default function Chapter({ params }: ChapterProps) {
     webtoon,
     chapter,
   );
+  const { getToken } = useAuth();
+  const [token, setToken] = useState("");
   const {
     status,
     data: chapterData,
     error,
-  } = useChapter(provider, webtoon, chapter);
+  } = useChapter(provider, webtoon, chapter, token);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const fetchedToken = await getToken();
+      setToken(fetchedToken || "");
+    };
+
+    fetchToken();
+  }, [getToken]);
 
   useEffect(() => {
     if (error) {

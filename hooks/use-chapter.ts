@@ -29,9 +29,8 @@ export async function fetchChapter(
   provider: string,
   webtoon: string,
   chapter: string,
+  token: string,
 ) {
-  const { getToken } = useAuth();
-  const token = await getToken();
   const response = await fetch(
     `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/chapters/${provider}/${webtoon}/${chapter}`,
     {
@@ -45,9 +44,14 @@ export async function fetchChapter(
   return result.data as Chapter;
 }
 
-export function useChapter(provider: string, webtoon: string, chapter: string) {
+export function useChapter(
+  provider: string,
+  webtoon: string,
+  chapter: string,
+  token: string,
+) {
   return useQuery({
     queryKey: ["chapter", provider, webtoon, chapter],
-    queryFn: () => fetchChapter(provider, webtoon, chapter),
+    queryFn: () => fetchChapter(provider, webtoon, chapter, token),
   });
 }
