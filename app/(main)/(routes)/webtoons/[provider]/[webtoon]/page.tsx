@@ -5,10 +5,11 @@ import { StatusInfo, StatusPending } from "@/components/status-ui";
 import { useBreadcrumbWebtoons } from "@/hooks/use-breadcrumb";
 import { useChapterList } from "@/hooks/use-chapter-list";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { ChapterTable } from "./_components/chapter-table";
+import { useAuth } from "@clerk/nextjs";
 
 interface WebtoonProps {
   params: {
@@ -23,11 +24,22 @@ export default function Webtoon({ params }: WebtoonProps) {
     provider,
     webtoon,
   );
+  const { getToken } = useAuth();
+  const [token, setToken] = useState("");
   const {
     status,
     data: listChapter,
     error,
-  } = useChapterList(provider, webtoon);
+  } = useChapterList(provider, webtoon, token);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const fetchedToken = await getToken();
+      setToken(fetchedToken || "");
+    };
+
+    fetchToken();
+  }, [getToken]);
 
   useEffect(() => {
     if (error) {
