@@ -1,8 +1,7 @@
 "use client";
 
-import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
 import { useBreadcrumbWebtoons } from "@/hooks/use-breadcrumb";
@@ -28,22 +27,11 @@ export default function Webtoon({ params }: WebtoonProps) {
     webtoon,
   );
 
-  const { getToken } = useAuth();
-  const [token, setToken] = useState("");
   const {
     status,
     data: listChapter,
     error,
-  } = useChapterList(provider, webtoon, token);
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      const fetchedToken = await getToken();
-      setToken(fetchedToken || "");
-    };
-
-    fetchToken();
-  }, [getToken]);
+  } = useChapterList(provider, webtoon);
 
   useEffect(() => {
     if (error) {

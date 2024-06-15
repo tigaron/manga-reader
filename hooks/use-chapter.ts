@@ -29,29 +29,18 @@ export async function fetchChapter(
   provider: string,
   webtoon: string,
   chapter: string,
-  token: string,
 ) {
   const response = await fetch(
     `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/chapters/${provider}/${webtoon}/${chapter}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
   );
   const result: ChapterResponse = await response.json();
   if (result.error) throw new Error(result.message);
   return result.data as Chapter;
 }
 
-export function useChapter(
-  provider: string,
-  webtoon: string,
-  chapter: string,
-  token: string,
-) {
+export function useChapter(provider: string, webtoon: string, chapter: string) {
   return useQuery({
     queryKey: ["chapter", provider, webtoon, chapter],
-    queryFn: () => fetchChapter(provider, webtoon, chapter, token),
+    queryFn: () => fetchChapter(provider, webtoon, chapter),
   });
 }

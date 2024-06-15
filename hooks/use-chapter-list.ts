@@ -23,31 +23,18 @@ export interface ListChapter {
   number: number;
 }
 
-export async function fetchChapterList(
-  provider: string,
-  webtoon: string,
-  token: string,
-) {
+export async function fetchChapterList(provider: string, webtoon: string) {
   const response = await fetch(
     `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/chapters/${provider}/${webtoon}/_list`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
   );
   const result: ListChapterResponse = await response.json();
   if (result.error) throw new Error(result.message);
   return result.data as ListChapterData;
 }
 
-export function useChapterList(
-  provider: string,
-  webtoon: string,
-  token: string,
-) {
+export function useChapterList(provider: string, webtoon: string) {
   return useQuery({
     queryKey: ["chapters", provider, webtoon],
-    queryFn: () => fetchChapterList(provider, webtoon, token),
+    queryFn: () => fetchChapterList(provider, webtoon),
   });
 }

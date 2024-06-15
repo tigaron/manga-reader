@@ -29,15 +29,9 @@ export async function fetchChapterBC(
   provider: string,
   webtoon: string,
   chapter: string,
-  token: string,
 ) {
   const response = await fetch(
     `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/chapters/${provider}/${webtoon}/${chapter}/_bc`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
   );
   const result: BreadcrumbResponse = await response.json();
   if (result.error) throw new Error(result.message);
@@ -77,11 +71,10 @@ export function useBreadcrumbChapters(
   provider: string,
   webtoon: string,
   chapter: string,
-  token: string,
 ) {
   return useQuery({
     queryKey: ["chapter-bc", provider, webtoon, chapter],
-    queryFn: () => fetchChapterBC(provider, webtoon, chapter, token),
+    queryFn: () => fetchChapterBC(provider, webtoon, chapter),
   });
 }
 
