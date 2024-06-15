@@ -1,12 +1,14 @@
 import "./globals.css";
 
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
+
+import type { Metadata } from "next";
+
 import QueryProviders from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ScrollToTopButton } from "@/components/scroll-to-top";
 import { Toaster } from "@/components/ui/sonner";
-import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Manga Reader",

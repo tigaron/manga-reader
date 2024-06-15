@@ -1,11 +1,12 @@
 "use client";
 
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+
 import { MobileToggle } from "@/components/navigation/mobile-toggle";
 import { NavMenu } from "@/components/navigation/navigation-menu";
 import { SearchBar } from "@/components/navigation/search-bar";
 import { SiteIcon } from "@/components/navigation/site-icon";
 import { ThemeToggle } from "@/components/navigation/theme-toggle";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 export function NavBar() {
   return (

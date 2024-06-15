@@ -1,7 +1,8 @@
 "use client";
 
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { useLayoutEffect, useState } from "react";
+
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export function useBreakpoints() {
   const [isClient, setIsClient] = useState(false);

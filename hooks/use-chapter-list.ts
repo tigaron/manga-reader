@@ -22,7 +22,11 @@ export interface ListChapter {
   number: number;
 }
 
-export async function fetchChapterList(provider: string, webtoon: string, token: string) {
+export async function fetchChapterList(
+  provider: string,
+  webtoon: string,
+  token: string,
+) {
   const response = await fetch(
     `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/chapters/${provider}/${webtoon}/_list`,
     {
@@ -36,7 +40,11 @@ export async function fetchChapterList(provider: string, webtoon: string, token:
   return result.data as ListChapterData;
 }
 
-export function useChapterList(provider: string, webtoon: string, token: string) {
+export function useChapterList(
+  provider: string,
+  webtoon: string,
+  token: string,
+) {
   return useQuery({
     queryKey: ["chapters", provider, webtoon],
     queryFn: () => fetchChapterList(provider, webtoon, token),
