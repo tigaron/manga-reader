@@ -1,6 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -72,17 +73,25 @@ export function SearchBar() {
                 >
                   <div
                     className={cn(
-                      "m-2",
+                      "m-2 flex cursor-pointer items-center space-x-4",
                       index !== 0 && "border-t border-neutral-500 py-1",
                     )}
                   >
-                    <p className="text-md font-medium text-neutral-200">
-                      {result.title}
-                    </p>
-                    <p
-                      className="mt-1 line-clamp-3 text-sm text-neutral-500"
-                      dangerouslySetInnerHTML={{ __html: result.synopsis }}
+                    <Image
+                      src={result.coverURL}
+                      alt={result.title}
+                      width={64}
+                      height={80}
                     />
+                    <div>
+                      <p className="text-md font-medium text-neutral-200">
+                        {result.title}
+                      </p>
+                      <p
+                        className="mt-1 line-clamp-3 text-sm text-neutral-500"
+                        dangerouslySetInnerHTML={{ __html: result.synopsis }}
+                      />
+                    </div>
                   </div>
                 </Link>
               );

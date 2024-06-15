@@ -14,6 +14,7 @@ export interface SearchData {
   title: string;
   synopsis: string;
   genres: string[];
+  coverURL: string;
 }
 
 export async function fetchSearchResult(query: string): Promise<SearchData[]> {

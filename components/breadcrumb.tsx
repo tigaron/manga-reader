@@ -53,9 +53,7 @@ export function BreadcrumbComponent({
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">
-            Home
-          </BreadcrumbLink>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -73,9 +71,7 @@ export function BreadcrumbComponent({
                   key={index}
                   className="text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  <BreadcrumbLink href={item.href}>
-                    {item.title}
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href={item.href}>{item.title}</BreadcrumbLink>
                 </BreadcrumbItem>
               ))}
             </DropdownMenuContent>
