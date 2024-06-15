@@ -22,10 +22,12 @@ interface WebtoonProps {
 
 export default function Webtoon({ params }: WebtoonProps) {
   const { provider, webtoon } = params;
-  const { breadcrumbItems, breadcrumbCurrent } = useBreadcrumbWebtoons(
+
+  const { isLoading: bcIsLoading, data: bcData } = useBreadcrumbWebtoons(
     provider,
     webtoon,
   );
+
   const { getToken } = useAuth();
   const [token, setToken] = useState("");
   const {
@@ -60,8 +62,9 @@ export default function Webtoon({ params }: WebtoonProps) {
           {listChapter.series.title}
         </h1>
         <BreadcrumbComponent
-          items={breadcrumbItems}
-          currentItem={breadcrumbCurrent}
+          type="webtoon"
+          isLoading={bcIsLoading}
+          data={bcData}
         />
         <Image
           src={listChapter.series.coverURL}

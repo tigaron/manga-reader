@@ -23,13 +23,17 @@ interface ChapterProps {
 
 export default function Chapter({ params }: ChapterProps) {
   const { provider, webtoon, chapter } = params;
-  const { breadcrumbItems, breadcrumbCurrent } = useBreadcrumbChapters(
+
+  const { getToken } = useAuth();
+  const [token, setToken] = useState("");
+
+  const { isLoading: bcIsLoading, data: bcData } = useBreadcrumbChapters(
     provider,
     webtoon,
     chapter,
+    token,
   );
-  const { getToken } = useAuth();
-  const [token, setToken] = useState("");
+
   const {
     status,
     data: chapterData,
@@ -61,8 +65,9 @@ export default function Chapter({ params }: ChapterProps) {
         {chapterData.fullTitle}
       </h1>
       <BreadcrumbComponent
-        items={breadcrumbItems}
-        currentItem={breadcrumbCurrent}
+        type="chapter"
+        isLoading={bcIsLoading}
+        data={bcData}
       />
       <ChapterPagination
         provider={provider}

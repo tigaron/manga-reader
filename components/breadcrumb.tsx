@@ -3,6 +3,12 @@
 import Link from "next/link";
 
 import {
+  Breadcrumb as BCType,
+  getBreadcrumbChapters,
+  getBreadcrumbWebtoons,
+} from "@/hooks/use-breadcrumb";
+
+import {
   Breadcrumb,
   BreadcrumbEllipsis,
   BreadcrumbItem,
@@ -16,10 +22,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface BreadcrumbProps {
-  items: BreadcrumbPage[];
-  currentItem: BreadcrumbPage;
+  type: "webtoon" | "chapter";
+  isLoading: boolean;
+  data: BCType | undefined;
 }
 
 export interface BreadcrumbPage {
@@ -27,7 +35,22 @@ export interface BreadcrumbPage {
   href: string;
 }
 
-export function BreadcrumbComponent({ items, currentItem }: BreadcrumbProps) {
+const getBreadcrumb = {
+  webtoon: getBreadcrumbWebtoons,
+  chapter: getBreadcrumbChapters,
+};
+
+export function BreadcrumbComponent({
+  type,
+  isLoading,
+  data,
+}: BreadcrumbProps) {
+  if (isLoading) return <Skeleton className="h-4 w-1/2" />;
+
+  if (!data) return null;
+
+  const { breadcrumbItems, breadcrumbCurrent } = getBreadcrumb[type](data);
+
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -47,7 +70,7 @@ export function BreadcrumbComponent({ items, currentItem }: BreadcrumbProps) {
               align="start"
               className="flex flex-col space-y-1 px-2 text-sm"
             >
-              {items.map((item, index) => (
+              {breadcrumbItems.map((item, index) => (
                 <BreadcrumbItem
                   key={index}
                   className="text-muted-foreground transition-colors hover:text-foreground"
@@ -62,7 +85,7 @@ export function BreadcrumbComponent({ items, currentItem }: BreadcrumbProps) {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>{currentItem.title}</BreadcrumbPage>
+          <BreadcrumbPage>{breadcrumbCurrent.title}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
