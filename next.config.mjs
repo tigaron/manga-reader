@@ -14,6 +14,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "suryatoon.com",
       },
+      {
+        protocol: "https",
+        hostname: "luminouscomics.org",
+      },
+      {
+        protocol: "https",
+        hostname: "flamecomics.me",
+      },
+      {
+        protocol: "https",
+        hostname: "flamecomics.com",
+      },
     ],
   },
 };
