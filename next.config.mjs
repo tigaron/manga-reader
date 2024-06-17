@@ -26,6 +26,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "flamecomics.com",
       },
+      {
+        protocol: "https",
+        hostname: "night-scans.com",
+      },
+      {
+        protocol: "https",
+        hostname: "agscomics.com",
+      },
+      {
+        protocol: "https",
+        hostname: "anigliscans.xyz",
+      },
     ],
   },
 };
