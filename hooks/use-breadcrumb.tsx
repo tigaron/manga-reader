@@ -5,15 +5,20 @@ import { env } from "@/env.mjs";
 import { BreadcrumbPage } from "@/components/breadcrumb";
 
 export interface Breadcrumb {
-  provider: string;
-  series?: string;
-  chapter?: string;
+  slug: string;
+  title: string;
+}
+
+export interface BreadcrumbsData {
+  provider: Breadcrumb;
+  series?: Breadcrumb;
+  chapter?: Breadcrumb;
 }
 
 interface BreadcrumbResponse {
   error: boolean;
   message: string;
-  data: Breadcrumb;
+  data: BreadcrumbsData;
 }
 
 export async function fetchWebtoonsBC(provider: string, webtoon: string) {
@@ -22,7 +27,7 @@ export async function fetchWebtoonsBC(provider: string, webtoon: string) {
   );
   const result: BreadcrumbResponse = await response.json();
   if (result.error) throw new Error(result.message);
-  return result.data as Breadcrumb;
+  return result.data as BreadcrumbsData;
 }
 
 export async function fetchChapterBC(
@@ -35,7 +40,7 @@ export async function fetchChapterBC(
   );
   const result: BreadcrumbResponse = await response.json();
   if (result.error) throw new Error(result.message);
-  return result.data as Breadcrumb;
+  return result.data as BreadcrumbsData;
 }
 
 export function useBreadcrumbWebtoons(provider: string, webtoon: string) {
@@ -45,7 +50,7 @@ export function useBreadcrumbWebtoons(provider: string, webtoon: string) {
   });
 }
 
-export function getBreadcrumbWebtoons(data: Breadcrumb) {
+export function getBreadcrumbWebtoons(data: BreadcrumbsData) {
   const { provider, series: webtoon } = data;
 
   const breadcrumbItems: BreadcrumbPage[] = [
@@ -54,14 +59,14 @@ export function getBreadcrumbWebtoons(data: Breadcrumb) {
       href: "/webtoons",
     },
     {
-      title: provider,
-      href: `/webtoons/${provider}`,
+      title: provider.title,
+      href: `/webtoons/${provider.slug}`,
     },
   ];
 
   const breadcrumbCurrent: BreadcrumbPage = {
-    title: webtoon!,
-    href: `/webtoons/${provider}/${webtoon}`,
+    title: webtoon?.title!,
+    href: `/webtoons/${provider.slug}/${webtoon?.slug}`,
   };
 
   return { breadcrumbItems, breadcrumbCurrent };
@@ -78,7 +83,7 @@ export function useBreadcrumbChapters(
   });
 }
 
-export function getBreadcrumbChapters(data: Breadcrumb) {
+export function getBreadcrumbChapters(data: BreadcrumbsData) {
   const { provider, series: webtoon, chapter } = data;
 
   const breadcrumbItems: BreadcrumbPage[] = [
@@ -87,18 +92,18 @@ export function getBreadcrumbChapters(data: Breadcrumb) {
       href: "/webtoons",
     },
     {
-      title: provider,
-      href: `/webtoons/${provider}`,
+      title: provider.title,
+      href: `/webtoons/${provider.slug}`,
     },
     {
-      title: webtoon!,
-      href: `/webtoons/${provider}/${webtoon}`,
+      title: webtoon?.title!,
+      href: `/webtoons/${provider.slug}/${webtoon?.slug}`,
     },
   ];
 
   const breadcrumbCurrent: BreadcrumbPage = {
-    title: chapter!,
-    href: `/webtoons/${provider}/${webtoon}/${chapter}`,
+    title: chapter?.title!,
+    href: `/webtoons/${provider.slug}/${webtoon?.slug}/${chapter?.slug}`,
   };
 
   return { breadcrumbItems, breadcrumbCurrent };

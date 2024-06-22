@@ -20,7 +20,7 @@ export interface SearchData {
 export async function fetchSearchResult(query: string): Promise<SearchData[]> {
   const encodedQuery = encodeURIComponent(query);
   const response = await fetch(
-    `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search?q=${encodedQuery}`,
+    `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/series?q=${encodedQuery}`,
   );
   const result: SearchResponse = await response.json();
   if (result.error) throw new Error(result.message);

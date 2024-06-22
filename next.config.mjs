@@ -38,6 +38,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "anigliscans.xyz",
       },
+      {
+        protocol: "https",
+        hostname: "mangagalaxy.me",
+      },
     ],
   },
 };
