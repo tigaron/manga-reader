@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  Breadcrumb as BCType,
+  BreadcrumbsData as BCType,
   getBreadcrumbChapters,
   getBreadcrumbWebtoons,
 } from "@/hooks/use-breadcrumb";
