@@ -25,7 +25,7 @@ export interface ListChapter {
 
 export async function fetchChapterList(provider: string, webtoon: string) {
   const response = await fetch(
-    `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/chapters/${provider}/${webtoon}/_list`,
+    `${env.NEXT_PUBLIC_BACKEND_URL}/api/v1/chapters/${provider}/${webtoon}/_list?sort=desc`,
   );
   const result: ListChapterResponse = await response.json();
   if (result.error) throw new Error(result.message);
